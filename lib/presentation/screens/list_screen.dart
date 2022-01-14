@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tatsam/routing/route_paths.dart';
 
-import '../bloc/tatsam_bloc.dart';
-import '../models/country.dart';
-import 'widgets/list_widget.dart';
+import '../../bloc/tatsam_bloc.dart';
+import '../../models/country.dart';
+import '../common/list_widget.dart';
 
 class ListScreen extends StatefulWidget {
   const ListScreen({Key? key}) : super(key: key);
@@ -41,11 +41,17 @@ class _ListScreenState extends State<ListScreen> {
               content: const Text('Please Check your internet Connectivity'),
               actions: [
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
                   child: const Text('Cancel'),
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    context
+                        .read<TatsamBloc>()
+                        .add(TatsamGetAllCountriesEvent());
+                  },
                   child: const Text('Retry'),
                 ),
               ],

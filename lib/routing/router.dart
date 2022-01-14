@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tatsam/routing/route_paths.dart';
-import 'package:tatsam/screens/favorite_screen.dart';
-import 'package:tatsam/screens/list_screen.dart';
+import 'package:tatsam/presentation/screens/favorite_screen.dart';
+import 'package:tatsam/presentation/screens/list_screen.dart';
 
 import '../models/country.dart';
 

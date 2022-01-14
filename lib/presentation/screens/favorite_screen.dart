@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tatsam/models/country.dart';
 
-import '../bloc/tatsam_bloc.dart';
-import 'widgets/list_widget.dart';
+import '../../bloc/tatsam_bloc.dart';
+import '../common/list_widget.dart';
 
 class FavoriteScreen extends StatefulWidget {
   final List<Country> countries;
@@ -39,11 +39,17 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
               content: const Text('Please Check your internet Connectivity'),
               actions: [
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
                   child: const Text('Cancel'),
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    context
+                        .read<TatsamBloc>()
+                        .add(TatsamGetAllCountriesEvent());
+                  },
                   child: const Text('Retry'),
                 ),
               ],
