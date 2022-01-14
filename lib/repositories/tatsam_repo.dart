@@ -44,21 +44,21 @@ class TatsamRepo {
     return _favCountries;
   }
 
-  static addToFavorites(Country country) {
+  static Future<void> addToFavorites(Country country) async {
     var box = Hive.box('countries');
 
-    box.put(country.short, country.toMap());
+    await box.put(country.short, country.toMap());
   }
 
-  static removeFromFavorites(Country country) {
+  static Future<void> removeFromFavorites(Country country) async {
     var box = Hive.box('countries');
 
-    box.delete(country.short);
+    await box.delete(country.short);
   }
 
-  static removeAll() {
+  static Future<void> removeAllFromFavorites() async {
     var box = Hive.box('countries');
 
-    box.clear();
+    await box.clear();
   }
 }

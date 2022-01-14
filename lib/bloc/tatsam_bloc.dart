@@ -26,9 +26,9 @@ class TatsamBloc extends Bloc<TatsamEvent, TatsamState> {
   }
 
   _mapTatsamAddToFavoritesEventToState(
-      TatsamAddToFavoritesEvent event, Emitter<TatsamState> emit) {
+      TatsamAddToFavoritesEvent event, Emitter<TatsamState> emit) async {
     try {
-      TatsamRepo.addToFavorites(event.country);
+      await TatsamRepo.addToFavorites(event.country);
 
       var countries = event.countries;
       countries.remove((event.country));
@@ -45,9 +45,9 @@ class TatsamBloc extends Bloc<TatsamEvent, TatsamState> {
   }
 
   _mapTatsamRemoveFromFavoritesEventToState(
-      TatsamRemoveFromFavoritesEvent event, Emitter<TatsamState> emit) {
+      TatsamRemoveFromFavoritesEvent event, Emitter<TatsamState> emit) async {
     try {
-      TatsamRepo.removeFromFavorites(event.country);
+      await TatsamRepo.removeFromFavorites(event.country);
 
       var countries = event.countries;
       countries.remove((event.country));
@@ -80,11 +80,27 @@ class TatsamBloc extends Bloc<TatsamEvent, TatsamState> {
     }
   }
 
+  _mapTatsamRemoveAllFromFavoritesEventToState(
+      TatsamRemoveAllFromFavoritesEvent event,
+      Emitter<TatsamState> emit) async {
+    try {
+      await TatsamRepo.removeAllFromFavorites();
+
+      add(TatsamGetAllCountriesEvent());
+    } on SocketException {
+      emit(TatsamInternetFailureState());
+    } catch (e) {
+      emit(TatsamFailureState(e.toString()));
+    }
+  }
+
   TatsamBloc() : super(TatsamInitial()) {
     on<TatsamGetAllCountriesEvent>(_mapTatsamGetAllCountriesEventToState);
     on<TatsamAddToFavoritesEvent>(_mapTatsamAddToFavoritesEventToState);
     on<TatsamRemoveFromFavoritesEvent>(
         _mapTatsamRemoveFromFavoritesEventToState);
     on<TatsamGetAllFavoritesEvent>(_mapTatsamGetAllFavoritesEventToState);
+    on<TatsamRemoveAllFromFavoritesEvent>(
+        _mapTatsamRemoveAllFromFavoritesEventToState);
   }
 }

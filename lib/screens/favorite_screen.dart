@@ -6,17 +6,19 @@ import '../bloc/tatsam_bloc.dart';
 import 'widgets/list_widget.dart';
 
 class FavoriteScreen extends StatefulWidget {
-  const FavoriteScreen({Key? key}) : super(key: key);
+  final List<Country> countries;
+  const FavoriteScreen({Key? key, required this.countries}) : super(key: key);
 
   @override
   State<FavoriteScreen> createState() => _FavoriteScreenState();
 }
 
 class _FavoriteScreenState extends State<FavoriteScreen> {
-  List<Country> _countries = [];
+  List<Country> countries = [];
+
   @override
   void initState() {
-    context.read<TatsamBloc>().add(TatsamGetAllFavoritesEvent());
+    countries = widget.countries;
     super.initState();
   }
 
@@ -62,6 +64,21 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
               fontWeight: FontWeight.w400,
             ),
           ),
+          actions: [
+            IconButton(
+              onPressed: () => context
+                  .read<TatsamBloc>()
+                  .add(TatsamRemoveAllFromFavoritesEvent()),
+              padding: const EdgeInsets.only(right: 24),
+              icon: const Tooltip(
+                message: 'Remove all favorite items',
+                child: Icon(
+                  Icons.delete,
+                  color: Colors.blueGrey,
+                ),
+              ),
+            ),
+          ],
         ),
         body: SafeArea(
           minimum: const EdgeInsets.only(
@@ -71,17 +88,24 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
           ),
           child: BlocBuilder<TatsamBloc, TatsamState>(
             builder: (context, state) {
-              if (state is TatsamLoadedAllFavoritesState) {
-                _countries = state.countries;
+              if (state is TatsamAllCountriesLoadedState) {
+                countries = state.countries;
                 return ListWidget(
                   countries: state.countries,
-                  showFavorite: false,
+                  showFavoriteIcon: false,
                 );
               }
-              if (_countries.isNotEmpty) {
+              if (state is TatsamLoadedAllFavoritesState) {
+                countries = state.countries;
                 return ListWidget(
-                  countries: _countries,
-                  showFavorite: false,
+                  countries: state.countries,
+                  showFavoriteIcon: false,
+                );
+              }
+              if (countries.isNotEmpty) {
+                return ListWidget(
+                  countries: countries,
+                  showFavoriteIcon: false,
                 );
               }
 

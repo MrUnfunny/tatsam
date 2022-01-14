@@ -29,4 +29,6 @@ class TatsamRemoveFromFavoritesEvent extends TatsamEvent {
   List<Object> get props => [countries, country];
 }
 
+class TatsamRemoveAllFromFavoritesEvent extends TatsamEvent {}
+
 class TatsamGetAllFavoritesEvent extends TatsamEvent {}

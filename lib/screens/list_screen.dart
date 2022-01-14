@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tatsam/repositories/tatsam_repo.dart';
 import 'package:tatsam/routing/route_paths.dart';
 
 import '../bloc/tatsam_bloc.dart';
@@ -69,22 +68,18 @@ class _ListScreenState extends State<ListScreen> {
           ),
           actions: [
             IconButton(
-              onPressed: () => TatsamRepo.removeAll(),
-              padding: const EdgeInsets.only(right: 24),
-              icon: const Icon(
-                Icons.delete,
-                color: Colors.blueGrey,
-              ),
-            ),
-            IconButton(
               onPressed: () => Navigator.pushNamed(
                 context,
                 RoutePaths.favoriteScreen,
+                arguments: _countries,
               ),
               padding: const EdgeInsets.only(right: 24),
-              icon: const Icon(
-                Icons.favorite,
-                color: Colors.blueGrey,
+              icon: const Tooltip(
+                message: 'View all favorite items',
+                child: Icon(
+                  Icons.favorite,
+                  color: Colors.blueGrey,
+                ),
               ),
             ),
           ],

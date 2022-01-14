@@ -3,6 +3,8 @@ import 'package:tatsam/routing/route_paths.dart';
 import 'package:tatsam/screens/favorite_screen.dart';
 import 'package:tatsam/screens/list_screen.dart';
 
+import '../models/country.dart';
+
 Route<dynamic> generateRoutes(RouteSettings settings) {
   return MaterialPageRoute(
     settings: settings,
@@ -12,7 +14,9 @@ Route<dynamic> generateRoutes(RouteSettings settings) {
           return const ListScreen();
 
         case RoutePaths.favoriteScreen:
-          return const FavoriteScreen();
+          return FavoriteScreen(
+            countries: settings.arguments as List<Country>,
+          );
 
         default:
           return const ListScreen();
