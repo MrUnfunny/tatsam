@@ -2,6 +2,8 @@
 
 A Flutter Application to view list of countries and add them to favorites built on BLoC architecture.
 
+<img src = "video/screen.gif" width="270" height="540" alt="Screen Recording"/>.
+
 ## Getting Started
 
 You can directly install the apk file from [releases](https://github.com/MrUnfunny/tatsam/releases).
